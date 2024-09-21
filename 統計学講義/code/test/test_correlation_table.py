@@ -31,5 +31,11 @@ class TestCorrelationTable(unittest.TestCase):
         共分散のテスト
         """
         self.assertAlmostEqual(self.correlation_table.covariance(), 442.00, places=2)
+    
+    def test_correlation_coefficient(self):
+        """
+        相関係数のテスト
+        """
+        self.assertAlmostEqual(self.correlation_table.correlation_coefficient(), 0.78, places=2)
 
 unittest.main()

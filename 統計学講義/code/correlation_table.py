@@ -61,3 +61,32 @@ class CorrelationTable:
 
         covariance /= self.length
         return covariance
+    
+    def correlation_coefficient(self) -> float:
+        """
+        相関係数の計算を行う関数
+
+        Returns
+        -------
+        float
+            相関係数
+        """
+        
+        # xの標準偏差を求める
+        x_frequency = self.correlation_table.sum()
+        x_mean = x_frequency.dot(pd.Series(self.correlation_table.columns.values, index=x_frequency.index.values)) / self.length
+        standard_deviation_x = 0
+        for item, value in x_frequency.items():
+            standard_deviation_x += (item - x_mean)**2 * value
+        standard_deviation_x = (standard_deviation_x / (self.length))**0.5
+
+        # yの標準偏差を求める
+        y_frequency = self.correlation_table.sum(axis=1)
+        y_mean = y_frequency.dot(pd.Series(self.correlation_table.index.values, index=y_frequency.index.values)) / self.length
+        standard_deviation_y = 0
+        for item, value in y_frequency.items():
+            standard_deviation_y += (item - y_mean)**2 * value
+        standard_deviation_y = (standard_deviation_y / self.length)**0.5
+
+        print(standard_deviation_x, standard_deviation_y)
+        return self.covariance()/(standard_deviation_x*standard_deviation_y)
